@@ -9,6 +9,9 @@ import com.example.todo_backend.service.TodoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class TodoServiceImpl implements TodoService {
@@ -27,5 +30,11 @@ public class TodoServiceImpl implements TodoService {
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Todo does not exist with given id" + todoId));
         return TodoMapper.mapToTodoDto(todo);
+    }
+
+    @Override
+    public List<TodoDto> getAllTodos() {
+        List<Todo> todos = todoRepository.findAll();
+        return todos.stream().map((todo) -> TodoMapper.mapToTodoDto(todo)).collect(Collectors.toList());
     }
 }
