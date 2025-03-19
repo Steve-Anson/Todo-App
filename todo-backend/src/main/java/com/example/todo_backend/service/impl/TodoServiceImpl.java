@@ -52,4 +52,12 @@ public class TodoServiceImpl implements TodoService {
 
         return TodoMapper.mapToTodoDto(updatedTodo);
     }
+
+    @Override
+    public void deleteTodo(Long todoId) {
+        Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Todo does not exist with given id" + todoId));
+
+        todoRepository.deleteById(todoId);
+    }
 }
