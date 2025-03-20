@@ -1,9 +1,10 @@
 import "./App.css";
+import TodoList from "./components/TodoList";
 
 function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hai Steve</h1>
+      <TodoList />
     </>
   );
 }
