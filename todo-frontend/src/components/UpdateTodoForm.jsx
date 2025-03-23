@@ -1,22 +1,23 @@
-import { useState } from "react";
-import { saveTodo } from "../services/TodoService";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useParams } from "react-router-dom";
+import { updateTodo } from "../services/TodoService";
 
-const TodoForm = ({ open, fetchTodos, onClose }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [completed, setIsCompleted] = useState(false);
-  //   const [dueDate, setDueDate] = useState("");
-  const [dueDate, setDueDate] = useState(new Date());
+const UpdateTodoForm = ({ setTodos, todos, open, onClose }) => {
+  const [title, setTitle] = useState(todos.title);
+  const [description, setDescription] = useState(todos.description);
+  const [completed, setIsCompleted] = useState(todos.completed);
+  const [dueDate, setDueDate] = useState(todos.dueDate);
 
-  const navigate = useNavigate();
+  //   useEffect(() => {
+  //     setTitle(todos.title);
+  //     setDescription(todos.description);
+  //     setIsCompleted(todos.completed);
+  //     setDueDate(todos.dueDate);
+  //     console.log("inside");
+  //   }, []);
 
-  const { id } = useParams();
-
-  function saveOrUpdateTodo(e) {
+  function UpdateTodo(e) {
     e.preventDefault();
     const todo = {
       title,
@@ -24,23 +25,19 @@ const TodoForm = ({ open, fetchTodos, onClose }) => {
       completed,
       dueDate,
     };
-    closeForm();
+    console.log(todo);
 
-    saveTodo(todo)
+    updateTodo(todos.id, todo)
       .then((response) => {
-        fetchTodos();
         console.log(response.data);
-        navigate("/todos");
+        setTodos(response.data);
       })
       .catch((error) => console.error(error));
+    closeForm();
   }
 
   function closeForm() {
     onClose();
-    setTitle("");
-    setDescription("");
-    setIsCompleted(false);
-    setDueDate("");
   }
 
   return (
@@ -80,6 +77,7 @@ const TodoForm = ({ open, fetchTodos, onClose }) => {
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
+
         <div className="">
           <label className="block text-sm font-bold">Due Date:</label>
           <input
@@ -91,6 +89,7 @@ const TodoForm = ({ open, fetchTodos, onClose }) => {
             onChange={(e) => setDueDate(e.target.value)}
           ></input>
         </div>
+
         {/* <div className="flex flex-col">
           <label className="block text-sm font-bold">Due Date:</label>
           <DatePicker
@@ -107,7 +106,7 @@ const TodoForm = ({ open, fetchTodos, onClose }) => {
           <select
             className="w-full border rounded py-2"
             value={completed}
-            onChange={(e) => setIsCompleted(e.target.value)}
+            onChange={(e) => setIsCompleted(e.target.value === "true")}
           >
             <option className="text-center" value={false}>
               Pending
@@ -118,14 +117,14 @@ const TodoForm = ({ open, fetchTodos, onClose }) => {
           </select>
         </div>
         <button
-          onClick={(e) => saveOrUpdateTodo(e)}
+          onClick={(e) => UpdateTodo(e)}
           className="bg-blue-400 py-2 px-4 mt-2 rounded font-bold"
         >
-          Add Todo
+          Update Todo
         </button>
       </form>
     </div>
   );
 };
 
-export default TodoForm;
+export default UpdateTodoForm;

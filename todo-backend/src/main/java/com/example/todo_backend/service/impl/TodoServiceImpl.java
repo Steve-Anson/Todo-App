@@ -45,7 +45,7 @@ public class TodoServiceImpl implements TodoService {
 
         todo.setTitle(todoDto.getTitle());
         todo.setDescription(todoDto.getDescription());
-        todo.setCompleted(todo.isCompleted());
+        todo.setCompleted(todoDto.isCompleted());
         todo.setDueDate(todoDto.getDueDate());
 
         Todo updatedTodo = todoRepository.save(todo);

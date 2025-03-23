@@ -33,7 +33,7 @@ const TodoList = () => {
           className="bg-amber-400 py-2 px-4 border-4 mb-2 self-end"
           onClick={() => setOpen(true)}
         >
-          Add Task
+          Add Todo
         </button>
         {todos.map((todo) => (
           <TodoItem key={todo.id} todo={todo} />

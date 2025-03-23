@@ -12,6 +12,9 @@ function App() {
 
           {/* http://localhost:5173/todos */}
           <Route path="/todos" element={<TodoList />}></Route>
+
+          {/* http://localhost:5173/todos/1 */}
+          <Route path="/todos/:id" element={<TodoList />}></Route>
         </Routes>
       </BrowserRouter>
     </>
