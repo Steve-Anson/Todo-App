@@ -1,10 +1,19 @@
 import "./App.css";
 import TodoList from "./components/TodoList";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <TodoList />
+      <BrowserRouter>
+        <Routes>
+          {/* http;//localhost:5173 */}
+          <Route path="/" element={<TodoList />}></Route>
+
+          {/* http://localhost:5173/todos */}
+          <Route path="/todos" element={<TodoList />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
